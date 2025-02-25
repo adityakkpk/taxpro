@@ -6,6 +6,17 @@ import connectDB from '@/src/lib/mongodb';
 import User from '@/src/app/models/User';
 import { appendToSheet } from '@/src/lib/googleSheets';
 
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+}
+
 export const options: NextAuthOptions = {
   providers: [
     GoogleProvider({
