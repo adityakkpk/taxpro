@@ -1,33 +1,43 @@
 "use client";
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/src/app/components/ui/button';
-import { Input } from '@/src/app/components/ui/input';
-import { Label } from '@/src/app/components/ui/label';
-import toast from 'react-hot-toast';
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { Button } from "@/src/app/components/ui/button";
+import { Input } from "@/src/app/components/ui/input";
+import { Label } from "@/src/app/components/ui/label";
+import toast from "react-hot-toast";
 
-export default function SignIn() {
-  const [error, setError] = useState('');
+export default function SignUn() {
+  const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data: any) => {
+    console.log(data);
     try {
-      const result = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: true,
-        callbackUrl: '/',
+      setIsSubmitting(true);
+      const formData = new FormData();
+      formData.append('name', data.fullName);
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        body: formData,
       });
 
-      if (result?.error) {
-        setError(result.error);
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
       } else {
-        toast.success('Sign in successful');
+        const { error } = await response.json();
+        setError(error);
       }
     } catch (error: any) {
       setError(error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -36,18 +46,28 @@ export default function SignIn() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Sign Up to TaxPro
           </h2>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                type="text"
+                {...register("fullName")}
+                required
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              />
+            </div>
+            <div>
               <Label htmlFor="email">Email address</Label>
               <Input
                 id="email"
                 type="email"
-                {...register('email')}
+                {...register("email")}
                 required
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               />
@@ -57,7 +77,7 @@ export default function SignIn() {
               <Input
                 id="password"
                 type="password"
-                {...register('password')}
+                {...register("password")}
                 required
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
               />
@@ -72,13 +92,14 @@ export default function SignIn() {
             <Button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              disabled={isSubmitting}
             >
-              Sign in
+              {isSubmitting ? 'signing...' : 'Sign Up'}
             </Button>
 
             <Button
               type="button"
-              onClick={() => signIn('google', { callbackUrl: '/' })}
+              onClick={() => signIn("google", { callbackUrl: "/" })}
               className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <svg

@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useSession, signOut } from 'next-auth/react';
-import { Button } from '@/src/app/components/ui/button';
-import { Menu, X, Calculator } from 'lucide-react';
+import { useState } from "react";
+import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/src/app/components/ui/button";
+import { Menu, X, Calculator, CircleUser } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
 
   return (
     <nav className="bg-white shadow-lg">
@@ -28,7 +30,10 @@ export default function Navbar() {
             <Link href="/" className="text-gray-700 hover:text-blue-600">
               Home
             </Link>
-            <Link href="/services" className="text-gray-700 hover:text-blue-600">
+            <Link
+              href="/services"
+              className="text-gray-700 hover:text-blue-600"
+            >
               Services
             </Link>
             <Link href="/about" className="text-gray-700 hover:text-blue-600">
@@ -41,19 +46,52 @@ export default function Navbar() {
               Contact
             </Link>
             {session ? (
-              <Button
-                onClick={() => signOut()}
-                variant="outline"
-                className="ml-4"
-              >
-                Logout
-              </Button>
+              <div className="relative">
+                <button
+                  onClick={toggleProfile}
+                  className="flex items-center focus:outline-none"
+                >
+                  {session.user.image ? (
+                    <img
+                      src={session.user.image}
+                      alt="user"
+                      className="w-7 h-7 rounded-full cursor-pointer"
+                    />
+                  ) : (
+                    <CircleUser
+                      color="#1960d2"
+                      className="w-7 h-7 cursor-pointer"
+                    />
+                  )}
+                </button>
+
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
+                    <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-200">
+                      {session.user.name || session.user.email}
+                    </div>
+                    <button
+                      onClick={() => signOut()}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
-              <Link href="/auth/signin">
-                <Button variant="default" className="ml-4">
-                  Sign In
-                </Button>
-              </Link>
+              <div className="flex">
+                <Link href="/auth/signin">
+                  <Button variant="default" className="ml-4">
+                    Log In
+                  </Button>
+                </Link>
+                <Link href="/auth/signup">
+                  <Button variant="default" className="ml-4">
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
 
@@ -124,11 +162,26 @@ export default function Navbar() {
                 Logout
               </Button>
             ) : (
-              <Link href="/auth/signin" className="block" onClick={toggleMenu}>
-                <Button variant="default" className="w-full mt-4">
-                  Sign In
-                </Button>
-              </Link>
+              <>
+                <Link
+                  href="/auth/signin"
+                  className="block"
+                  onClick={toggleMenu}
+                >
+                  <Button variant="default" className="w-full mt-4">
+                    Log In
+                  </Button>
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="block"
+                  onClick={toggleMenu}
+                >
+                  <Button variant="default" className="w-full mt-4">
+                    Sign In
+                  </Button>
+                </Link>
+              </>
             )}
           </div>
         </div>

@@ -1,4 +1,4 @@
 Todo: 
 
-1) Add a signup Route with the Name, email, password, Image = "", provider=credentials
-2) UI update
+1) Subscribe Popup
+2) Login before enquiry

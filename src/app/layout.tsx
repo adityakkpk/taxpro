@@ -6,6 +6,7 @@ import { options } from "./api/auth/[...nextauth]/options";
 import SessionProvider from "@/src/app/components/SessionProvider";
 import Navbar from "@/src/app/components/layout/Navbar";
 import Footer from "@/src/app/components/layout/Footer";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,6 +41,7 @@ export default async function RootLayout({
             <Navbar />
             <main className="flex-grow">{children}</main>
             <Footer />
+            <Toaster position="top-right" />
           </div>
         </SessionProvider>
       </body>
