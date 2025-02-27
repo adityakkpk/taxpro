@@ -9,12 +9,17 @@ import { Label } from '@/src/app/components/ui/label';
 import { Textarea } from '@/src/app/components/ui/textarea';
 import { Upload, X } from 'lucide-react';
 import { useToast } from '@/src/app/hooks/use-toast';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import Hero from '../components/layout/Hero';
 
 export default function EnquiryForm() {
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { register, handleSubmit, reset } = useForm();
+
+  const { data: session } = useSession();
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -66,12 +71,40 @@ export default function EnquiryForm() {
     }
   };
 
+  if (!session) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white p-8 rounded-xl shadow-lg text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Sign In Required</h1>
+            <p className="text-gray-600 mb-8">
+              You need to sign in to submit a tax enquiry. Please sign in to continue.
+            </p>
+            <Link
+              href="/auth/signin"
+              className="w-full bg-black text-white px-4 py-2 rounded-lg inline-block"
+            >
+              Sign In
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gray-50">
+      <Hero
+        imageUrl="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40"
+        pageName="Submit Tax Enquiry"
+        pageDesc='Submit your tax-related queries and documents using the form below.'
+      />
+      <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="bg-white p-8 rounded-xl shadow-lg">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Submit Tax Enquiry</h1>
-
+          <p className="text-gray-600 mb-8">
+            Please provide your details and query along with any supporting documents.
+          </p>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <Label htmlFor="fullName">Full Name</Label>
