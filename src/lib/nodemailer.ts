@@ -33,3 +33,42 @@ export const sendConfirmationEmail = async (to: string, name: string) => {
     throw error;
   }
 };
+
+export const sendEmail = async (name: string, email: string, subject: string, message: string) => {
+  try {
+    // email for contact us only
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_FROM,
+      subject,
+      html: `
+        <h1>New Contact Us Message</h1>
+        <p>Name: ${name}</p>
+        <p>Email: ${email}</p>
+        <p>Message:</p>
+        <pre>${message}</pre>
+      `,
+    })
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+}
+
+export const sendSubscriptionEmail = async (subject: string, message: string) => {
+  try {
+    // email for contact us only
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_FROM,
+      subject,
+      html: `
+        <h1>New Subscriber</h1>
+        <pre>${message}</pre>
+      `,
+    })
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+}

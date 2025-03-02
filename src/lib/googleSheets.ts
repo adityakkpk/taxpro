@@ -8,7 +8,7 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: 'v4', auth });
 const SPREADSHEET_ID = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
 
-export const appendToSheet = async (values: any[]) => {
+export const appendToSheet = async (values: any[], range: string = 'Sheet1!A:Z') => {
   if (!SPREADSHEET_ID) {
     throw new Error('GOOGLE_SHEETS_SPREADSHEET_ID is not configured');
   }
@@ -16,7 +16,7 @@ export const appendToSheet = async (values: any[]) => {
   try {
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Sheet1!A:Z',
+      range: range,
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [values],

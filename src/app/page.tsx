@@ -11,33 +11,72 @@ import { useForm } from "react-hook-form";
 import { Label } from "./components/ui/label";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
+import toast from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+// Define validation schema
+const contactFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export default function Home() {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const { data: session } = useSession();
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+  });
 
   const onSubmit = async (data: any) => {
-    setIsSubmitting(true);
-    // Here you would typically send the data to your backend
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-    setIsSubmitting(false);
-    reset();
-    alert("Message sent successfully!");
+    try {
+      setIsSubmitting(true);
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("subject", data.subject);
+      formData.append("message", data.message);
+
+      const response = await fetch("/api/contact-us", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit contact form");
+      }
+
+      toast.success("Successfully submitted!");
+
+      reset();
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
     if (!session) {
       const timer = setTimeout(() => {
         setShowLoginPopup(true);
-      }, 10000); // 10 Seconds delay
+      }, 10000); // 30 Seconds delay
 
       return () => clearTimeout(timer);
     }
-  }, [session]);
+  }, [showLoginPopup]);
 
   return (
     <section className="min-h-screen">
@@ -167,7 +206,15 @@ export default function Home() {
         >
           <div>
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" {...register("name")} required className="mt-1" />
+            <Input
+              id="name"
+              {...register("name")}
+              required
+              className={`mt-1 ${errors.name ? "border-red-500" : ""}`}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -177,8 +224,13 @@ export default function Home() {
               type="email"
               {...register("email")}
               required
-              className="mt-1"
+              className={`mt-1 ${errors.email ? "border-red-500" : ""}`}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -186,9 +238,13 @@ export default function Home() {
             <Input
               id="subject"
               {...register("subject")}
-              required
-              className="mt-1"
+              className={`mt-1 ${errors.subject ? "border-red-500" : ""}`}
             />
+            {errors.subject && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.subject.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -196,10 +252,14 @@ export default function Home() {
             <Textarea
               id="message"
               {...register("message")}
-              required
-              className="mt-1"
+              className={`mt-1 ${errors.message ? "border-red-500" : ""}`}
               rows={5}
             />
+            {errors.message && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.message.message}
+              </p>
+            )}
           </div>
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
@@ -208,8 +268,11 @@ export default function Home() {
         </form>
       </main>
 
-      {showLoginPopup && !session && (
-        <SubscribePopup onClose={() => setShowLoginPopup(false)} />
+      {showLoginPopup && !isSubscribed && !session && (
+        <SubscribePopup
+          onClose={() => setShowLoginPopup(false)}
+          setIsSubscribed={setIsSubscribed}
+        />
       )}
     </section>
   );
