@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       enquiry.query || "",
       uploadedFiles.map((f) => f.url).join(", ") || "",
       new Date().toISOString(),
-    ]);
+    ], "Sheet1!A:D");
 
     // Send confirmation email
     await sendConfirmationEmail(email, fullName);

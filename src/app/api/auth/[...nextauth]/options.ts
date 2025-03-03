@@ -4,7 +4,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcryptjs';
 import connectDB from '@/src/lib/mongodb';
 import User from '@/src/app/models/User';
-import { appendToSheet } from '@/src/lib/googleSheets';
 
 declare module 'next-auth' {
   interface Session {
@@ -69,13 +68,6 @@ export const options: NextAuthOptions = {
           image: user.image,
           provider: account?.provider || 'credentials',
         });
-
-        await appendToSheet([
-          newUser.name,
-          newUser.email,
-          newUser.provider,
-          new Date().toISOString(),
-        ]);
       }
 
       return true;

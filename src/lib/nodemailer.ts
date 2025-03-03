@@ -42,7 +42,7 @@ export const sendEmail = async (name: string, email: string, subject: string, me
       to: process.env.EMAIL_FROM,
       subject,
       html: `
-        <h1>New Contact Us Message</h1>
+        <h1>New Message</h1>
         <p>Name: ${name}</p>
         <p>Email: ${email}</p>
         <p>Message:</p>
@@ -57,7 +57,6 @@ export const sendEmail = async (name: string, email: string, subject: string, me
 
 export const sendSubscriptionEmail = async (subject: string, message: string) => {
   try {
-    // email for contact us only
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: process.env.EMAIL_FROM,
