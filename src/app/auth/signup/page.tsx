@@ -7,8 +7,9 @@ import { Button } from "@/src/app/components/ui/button";
 import { Input } from "@/src/app/components/ui/input";
 import { Label } from "@/src/app/components/ui/label";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
-export default function SignUn() {
+export default function SignUp() {
   const [error, setError] = useState("");
   const { register, handleSubmit } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,6 +31,12 @@ export default function SignUn() {
       if (response.ok) {
         const { message } = await response.json();
         toast.success(message);
+        await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: true,
+          callbackUrl: '/',
+        });
       } else {
         const { error } = await response.json();
         setError(error);
@@ -97,6 +104,8 @@ export default function SignUn() {
               {isSubmitting ? 'signing...' : 'Sign Up'}
             </Button>
 
+            <div className='text-center text-gray-500'>- OR -</div>
+
             <Button
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/" })}
@@ -130,6 +139,12 @@ export default function SignUn() {
               </svg>
               Sign in with Google
             </Button>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <Link href="/auth/signin" className="text-sm text-blue-600 hover:text-blue-800">
+              Already have an account? Sign in
+            </Link>
           </div>
         </form>
       </div>

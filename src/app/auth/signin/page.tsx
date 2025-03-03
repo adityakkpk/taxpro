@@ -7,6 +7,7 @@ import { Button } from '@/src/app/components/ui/button';
 import { Input } from '@/src/app/components/ui/input';
 import { Label } from '@/src/app/components/ui/label';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function SignIn() {
   const [error, setError] = useState('');
@@ -76,6 +77,8 @@ export default function SignIn() {
               Sign in
             </Button>
 
+            <div className='text-center text-gray-500'>- OR -</div>
+
             <Button
               type="button"
               onClick={() => signIn('google', { callbackUrl: '/' })}
@@ -109,6 +112,12 @@ export default function SignIn() {
               </svg>
               Sign in with Google
             </Button>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <Link href="/auth/signup" className="text-sm text-blue-600 hover:text-blue-800">
+              Don't have an account? Sign up
+            </Link>
           </div>
         </form>
       </div>
