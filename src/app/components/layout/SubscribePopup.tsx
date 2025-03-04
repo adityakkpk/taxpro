@@ -46,7 +46,7 @@ export default function SubscribePopup({ onClose, setIsSubscribed }: { onClose: 
       // Clean up the data before sending
       const payload = {
         email: data.email || undefined,
-        phone: data.phone || "1234567890",
+        phone: data.phone || Math.floor(Math.random() * 100),
       };
 
       
