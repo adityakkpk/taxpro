@@ -2,7 +2,7 @@ import connectDB from "@/src/lib/mongodb";
 import Enquiry from "@/src/app/models/Enquiry";
 import { uploadToCloudinary } from "@/src/lib/cloudinary";
 import { appendToSheet } from "@/src/lib/googleSheets";
-import { sendConfirmationEmail } from "@/src/lib/nodemailer";
+import { sendConfirmationEmail, sendEmail } from "@/src/lib/nodemailer";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -33,16 +33,27 @@ export async function POST(req: Request) {
     });
 
     // Add to Google Sheets
-    await appendToSheet([
+    await appendToSheet(
+      [
+        enquiry.fullName,
+        enquiry.email,
+        enquiry.query || "",
+        uploadedFiles.map((f) => f.url).join(", ") || "",
+        new Date().toISOString(),
+      ],
+      "Sheet1!A:D"
+    );
+
+    // Send confirmation email to User
+    await sendConfirmationEmail(email, fullName);
+
+    // send email to Admin
+    await sendEmail(
       enquiry.fullName,
       enquiry.email,
-      enquiry.query || "",
-      uploadedFiles.map((f) => f.url).join(", ") || "",
-      new Date().toISOString(),
-    ], "Sheet1!A:D");
-
-    // Send confirmation email
-    await sendConfirmationEmail(email, fullName);
+      `New Enquiry from ${enquiry.fullName}`,
+      enquiry.query
+    );
 
     return NextResponse.json({
       message: "Enquiry submitted successfully",
