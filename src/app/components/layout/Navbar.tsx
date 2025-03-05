@@ -1,10 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/src/app/components/ui/button";
-import { Menu, X, Calculator, CircleUser } from "lucide-react";
+import {
+  Menu,
+  X,
+  Calculator,
+  CircleUser,
+  LucideCreativeCommons,
+  LucideFileChartColumnIncreasing,
+  ChevronDown,
+  MoveRight,
+  CircleChevronRight,
+} from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -14,10 +24,426 @@ export default function Navbar() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
 
+  const servicesMenu = [
+    {
+      title: "Incorporation",
+      submenu: [
+        {
+          title: "Proprietorship Firm Incorporation.",
+
+          href: "/services/itr-filing",
+        },
+        {
+          title: "Partnership Firm Incorporation.",
+
+          href: "/services/tax-planning",
+        },
+        {
+          title: "One Person Company",
+
+          href: "/services/advance-tax",
+        },
+        {
+          title: "Limited Liability Partnership",
+
+          href: "/services/form-16",
+        },
+        {
+          title: "Private Limited Company",
+
+          href: "/services/capital-gains",
+        },
+
+        {
+          title: "Section 8 Company",
+
+          href: "/services/huf-filing",
+        },
+        {
+          title: "Public Limited Company ",
+
+          href: "/services/nri-taxation",
+        },
+        {
+          title: "Trust Registration",
+
+          href: "/services/tax-saving",
+        },
+        {
+          title: "Trademark",
+
+          href: "/services/tax-refund",
+        },
+      ],
+    },
+
+    {
+      title: "Registration",
+      submenu: [
+        {
+          title: "Fssai Registration",
+
+          href: "/services/gst-registration",
+        },
+        {
+          title: "Fssai License",
+
+          href: "/services/gst-filing",
+        },
+        {
+          title: "Halal License & Certification",
+
+          href: "/services/gst-advisory",
+        },
+        {
+          title: "Icegate Registration",
+
+          href: "/services/input-tax-credit",
+        },
+        {
+          title: "Import And Export Code",
+
+          href: "/services/e-way-bill",
+        },
+        {
+          title: "Iso Registration",
+
+          href: "/services/gst-audit",
+        },
+        {
+          title: "Esic / Epfo Registration",
+
+          href: "/services/gst-annual-return",
+        },
+        {
+          title: "Drugs License",
+
+          href: "/services/lut-filing",
+        },
+        {
+          title: "Udyam Registration ",
+
+          href: "/services/gst-refund",
+        },
+      ],
+    },
+    {
+      title: "Goods And Service Tax Matters",
+      submenu: [
+        {
+          title: "Gst Registration",
+
+          href: "/services/private-limited",
+        },
+        {
+          title: "Gst Return Filling",
+
+          href: "/services/llp",
+        },
+        {
+          title: "Gst Annual Return Filling",
+
+          href: "/services/opc",
+        },
+        {
+          title: "Gst Accounting",
+
+          href: "/services/partnership",
+        },
+        {
+          title: "Gst Amedment (Filling))",
+
+          href: "/services/sole-proprietorship",
+        },
+        {
+          title: "Gst Notices Reply",
+
+          href: "/services/msme",
+        },
+        {
+          title: "Gst Lut Forms",
+
+          href: "/services/startup-india",
+        },
+        {
+          title: "Gst Refund Cases",
+
+          href: "/services/section-8",
+        },
+        {
+          title: "Gst Revocation",
+
+          href: "/services/nidhi-company",
+        },
+        {
+          title: "Gst 10",
+
+          href: "/services/foreign-company",
+        },
+      ],
+    },
+    {
+      title: "Income Tax Matters",
+      submenu: [
+        {
+          title: "Income Tax E Fillings",
+
+          href: "/services/annual-compliance",
+        },
+        {
+          title: "Business Tax E-Filling",
+
+          href: "/services/roc-filing",
+        },
+        {
+          title: "Itr-1 Return Filling",
+
+          href: "/services/director-kyc",
+        },
+        {
+          title: "Itr-2 Return Filling",
+
+          href: "/services/din-application",
+        },
+        {
+          title: "Itr-3 Return Fillings",
+
+          href: "/services/company-changes",
+        },
+        {
+          title: "Itr-4 Return Filling",
+
+          href: "/services/fema-compliance",
+        },
+        {
+          title: "Itr-5 Return Filling",
+
+          href: "/services/legal-metrology",
+        },
+        {
+          title: "Itr-6 Return Filling",
+
+          href: "/services/trademark",
+        },
+        {
+          title: "Itr-7 Return Filling",
+
+          href: "/services/iso-certification",
+        },
+        {
+          title: "Tan Registration",
+
+          href: "/services/esi-pf-registration",
+        },
+        {
+          title: "Tds Return Filling",
+
+          href: "/services/esi-pf-registration",
+        },
+        {
+          title: "Tds Refund",
+
+          href: "/services/esi-pf-registration",
+        },
+        {
+          title: "Income Tax Notice",
+
+          href: "/services/esi-pf-registration",
+        },
+      ],
+    },
+    {
+      title: "Ministry Of Corporate Affairs (Mca)",
+      submenu: [
+        {
+          title: "Company Compliance",
+
+          href: "/services/bookkeeping",
+        },
+        {
+          title: "Llp Compliance",
+
+          href: "/services/financial-statements",
+        },
+        {
+          title: "Opc Compliance",
+
+          href: "/services/payroll",
+        },
+        {
+          title: "Name Change - Company",
+
+          href: "/services/tds-returns",
+        },
+        {
+          title: "Registered Office Change",
+
+          href: "/services/business-valuation",
+        },
+        {
+          title: "Din Ekyc Filing",
+
+          href: "/services/cfo-services",
+        },
+        {
+          title: "Din Reactivation",
+
+          href: "/services/internal-audit",
+        },
+        {
+          title: "Director Change",
+          href: "/services/inventory-management",
+        },
+        {
+          title: "Financial Projections",
+
+          href: "/services/financial-projections",
+        },
+        {
+          title: "Remove Director",
+
+          href: "/services/mis-reporting",
+        },
+        {
+          title: "Adt-1 Filing",
+
+          href: "/services/financial-projections",
+        },
+        {
+          title: "Dpt-3 Filing",
+          href: "/services/financial-projections",
+        },
+        {
+          title: "Llp Form 11 Filing",
+          href: "/services/financial-projections",
+        },
+        {
+          title: "Others Roc Compliance",
+
+          href: "/services/financial-projections",
+        },
+      ],
+    },
+  ];
+
+  interface ServiceItemProps {
+    title: string;
+    description?: string;
+    href: string;
+    isNew?: boolean;
+  }
+
+  const ServiceItem = ({ title, href, isNew }: ServiceItemProps) => {
+    return (
+      <Link
+        href={href}
+        className="block p-2 hover:bg-gray-50 transition-colors rounded"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-">
+              <span className="font-medium text-[#3c5473] text-sm">
+                {title}
+              </span>
+              {isNew && (
+                <span className="bg-orange-500 text-white text-xs px- py-0.5 rounded-full">
+                  New
+                </span>
+              )}
+            </div>
+          </div>
+          <LucideCreativeCommons className="h-4 w-4 text-gray-400 flex-shrink-0" />
+        </div>
+      </Link>
+    );
+  };
+
+  // ServicesDropdown Component
+  const ServicesDropdown = () => {
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const handleMouseEnter = () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      dropdownRef.current?.classList.remove("hidden");
+    };
+
+    const handleMouseLeave = () => {
+      timeoutRef.current = setTimeout(() => {
+        dropdownRef.current?.classList.add("hidden");
+      }, 300);
+    };
+
+    return (
+      <div
+        className="relative group"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <button className="flex items-center gap-1 text-black hover:text-black/60 transition py-2">
+         <NavLink href="/services"> Services </NavLink><ChevronDown className="h-4 w-4" />
+        </button>
+
+        <div
+          ref={dropdownRef}
+          className="hidden absolute top-full left-0 w-64 bg-white rounded-lg shadow-lg mt-1"
+        >
+          <div className="py-2">
+            {servicesMenu.map((menu) => (
+              <div
+                key={menu.title}
+                className="relative group/submenu px-4 py-2 hover:bg-gray-100"
+              >
+                <button className="w-full text-left flex items-center justify-between">
+                  <span className="text-sm font-medium">{menu.title}</span>
+                  <CircleChevronRight className="h-4 w-4" />
+                </button>
+                <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[640px] bg-white rounded-lg shadow-lg ml-1">
+                  <div className="grid grid-cols-2 gap-4 p-4">
+                    {menu.submenu.map((item) => (
+                      <ServiceItem
+                        key={item.title}
+                        title={item.title}
+                        href={item.href}
+                      />
+                    ))}
+                    {/* {menu.submenu.slice(0, 10).map((item) => (
+                      <ServiceItem
+                        key={item.title}
+                        title={item.title}
+                        description={item.description}
+                        href={item.href}
+                      />
+                    ))} */}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // NavLink Component
+  const NavLink = ({
+    href,
+    children,
+  }: {
+    href: string;
+    children: React.ReactNode;
+  }) => {
+    return (
+      <Link href={href} className="text-white hover:text-white/90 transition">
+        {children}
+      </Link>
+    );
+  };
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className=" flex gap-32 items-center py-4">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <Calculator className="h-8 w-8 text-blue-600" />
@@ -26,25 +452,36 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-blue-600">
-              Home
-            </Link>
-            <Link
+          <div className="hidden justify-between md:flex md:items-center md:space-x-8 ">
+            <div className=" flex justify-center items-center space-x-4">
+              <Link href="/" className="text-gray-700 hover:text-blue-600">
+                Home
+              </Link>
+              {/* <Link
               href="/services"
               className="text-gray-700 hover:text-blue-600"
             >
               Services
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-blue-600">
-              About Us
-            </Link>
-            <Link href="/enquiry" className="text-gray-700 hover:text-blue-600">
-              Enquiry
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600">
-              Contact
-            </Link>
+            </Link> */}
+              <ServicesDropdown />
+              <Link href="/about" className="text-gray-700 hover:text-blue-600">
+                About Us
+              </Link>
+              <Link
+                href="/enquiry"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Enquiry
+              </Link>
+              <Link
+                href="/contact"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+          <div className="">
             {session ? (
               <div className="relative">
                 <button
@@ -80,7 +517,7 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div className="flex">
+              <div className="flex justify-end items-center">
                 <Link href="/auth/signin">
                   <Button variant="default" className="ml-4">
                     Log In

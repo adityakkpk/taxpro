@@ -39,7 +39,7 @@ export default function About() {
             />
           </div>
         </div>
-      </div>
+      </div> 
 
       {/* Stats Section */}
       <div className="bg-gray-50 py-16">
