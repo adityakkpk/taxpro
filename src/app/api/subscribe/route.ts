@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    console.log(body)
+    // console.log(body.email + " " + body.phone);
     const { email, phone } = body;
 
     if (!email && !phone) {
@@ -19,11 +19,31 @@ export async function POST(request: Request) {
       );
     }
 
-    const existingUser = await Subscriber.findOne({
-      $or: [{ email }, { phone }]
-    })
+    const sanitizedEmail = email?.toLowerCase().trim();
+    const sanitizedPhone = phone?.trim();
 
-    if(existingUser) {
+    const query = {
+      $or: [
+        ...(sanitizedEmail ? [{ email: sanitizedEmail }] : []),
+        ...(sanitizedPhone ? [{ phone: sanitizedPhone }] : []),
+      ],
+    };
+
+    // Make sure we have at least one condition
+    if (query.$or.length === 0) {
+      return NextResponse.json(
+        { message: "Either email or phone is required" },
+        { status: 400 }
+      );
+    }
+
+    console.log("Query:", JSON.stringify(query, null, 2));
+    
+    const existingUser = await Subscriber.findOne(query);
+
+    console.log("Found user:", existingUser);
+
+    if (existingUser) {
       return NextResponse.json(
         { message: "User already exist. Try different email or phone number" },
         { status: 400 }
@@ -31,11 +51,14 @@ export async function POST(request: Request) {
     }
 
     // Save Subscription information into DB
-    const newSubscriber = new Subscriber({
-      email: email || undefined,
-      phone: phone || undefined,
-      subscriptionDate: new Date()
-    });
+    // When saving new subscriber, only include non-null fields
+    const subscriberData = {
+      ...(sanitizedEmail && { email: sanitizedEmail }),
+      ...(sanitizedPhone && { phone: sanitizedPhone }),
+      subscriptionDate: new Date(),
+    };
+
+    const newSubscriber = new Subscriber(subscriberData);
     await newSubscriber.save();
 
     // Format data for Google Sheets
@@ -44,7 +67,7 @@ export async function POST(request: Request) {
       currentDate,
       email || "",
       phone || "",
-      "Subscription"  // Type of entry
+      "Subscription", // Type of entry
     ];
 
     // Append to Google Sheets (Sheet2)
@@ -55,6 +78,15 @@ export async function POST(request: Request) {
       "New Subscription",
       `New subscription made by ${email || phone} on ${currentDate}`
     );
+
+    // Send Email to the user
+    if (email) {
+      await sendSubscriptionEmail(
+        "Subscription Confirmation",
+        `Thank you for subscribing! Your subscription has been confirmed. You will receive updates via email at ${email}.`,
+        email
+      );
+    }
 
     return NextResponse.json(
       { message: "Subscription successful" },

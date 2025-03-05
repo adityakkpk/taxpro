@@ -108,7 +108,7 @@ export default function Home() {
     if (!session) {
       const timer = setTimeout(() => {
         setShowLoginPopup(true);
-      }, 30000); // 30 Seconds delay
+      }, 15000); // 15 Seconds delay
 
       return () => clearTimeout(timer);
     }

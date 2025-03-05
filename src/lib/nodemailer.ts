@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_SERVER_HOST,
@@ -10,9 +10,9 @@ const transporter = nodemailer.createTransport({
   },
   tls: {
     // Add TLS options
-    ciphers: 'SSLv3',
-    rejectUnauthorized: false
-  }
+    ciphers: "SSLv3",
+    rejectUnauthorized: false,
+  },
 });
 
 export const sendConfirmationEmail = async (to: string, name: string) => {
@@ -20,7 +20,7 @@ export const sendConfirmationEmail = async (to: string, name: string) => {
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to,
-      subject: 'Tax Enquiry Confirmation',
+      subject: "Tax Enquiry Confirmation",
       html: `
         <h1>Thank you for your enquiry, ${name}!</h1>
         <p>We have received your tax enquiry and will get back to you shortly.</p>
@@ -29,12 +29,17 @@ export const sendConfirmationEmail = async (to: string, name: string) => {
       `,
     });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     throw error;
   }
 };
 
-export const sendEmail = async (name: string, email: string, subject: string, message: string) => {
+export const sendEmail = async (
+  name: string,
+  email: string,
+  subject: string,
+  message: string
+) => {
   try {
     // email for contact us only
     await transporter.sendMail({
@@ -48,26 +53,30 @@ export const sendEmail = async (name: string, email: string, subject: string, me
         <p>Message:</p>
         <pre>${message}</pre>
       `,
-    })
+    });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     throw error;
   }
-}
+};
 
-export const sendSubscriptionEmail = async (subject: string, message: string) => {
+export const sendSubscriptionEmail = async (
+  subject: string,
+  message: string,
+  to: string | undefined = process.env.EMAIL_FROM,
+) => {
   try {
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
-      to: process.env.EMAIL_FROM,
+      to: to,
       subject,
       html: `
         <h1>New Subscriber</h1>
         <pre>${message}</pre>
       `,
-    })
+    });
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     throw error;
   }
-}
+};
