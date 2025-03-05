@@ -27,300 +27,304 @@ export default function Navbar() {
   const servicesMenu = [
     {
       title: "Incorporation",
+      href: "/services/incorporation",
       submenu: [
         {
           title: "Proprietorship Firm Incorporation.",
 
-          href: "/services/itr-filing",
+          href: "/services/incorporation/itr-filing",
         },
         {
           title: "Partnership Firm Incorporation.",
 
-          href: "/services/tax-planning",
+          href: "/services/incorporation/tax-planning",
         },
         {
           title: "One Person Company",
 
-          href: "/services/advance-tax",
+          href: "/services/incorporation/advance-tax",
         },
         {
           title: "Limited Liability Partnership",
 
-          href: "/services/form-16",
+          href: "/services/incorporation/form-16",
         },
         {
           title: "Private Limited Company",
 
-          href: "/services/capital-gains",
+          href: "/services/incorporation/capital-gains",
         },
 
         {
           title: "Section 8 Company",
 
-          href: "/services/huf-filing",
+          href: "/services/incorporation/huf-filing",
         },
         {
           title: "Public Limited Company ",
 
-          href: "/services/nri-taxation",
+          href: "/services/incorporation/nri-taxation",
         },
         {
           title: "Trust Registration",
 
-          href: "/services/tax-saving",
+          href: "/services/incorporation/tax-saving",
         },
         {
           title: "Trademark",
 
-          href: "/services/tax-refund",
+          href: "/services/incorporation/tax-refund",
         },
       ],
     },
-
     {
       title: "Registration",
+      href: "/services/registration",
       submenu: [
         {
           title: "Fssai Registration",
 
-          href: "/services/gst-registration",
+          href: "/services/registration/gst-registration",
         },
         {
           title: "Fssai License",
 
-          href: "/services/gst-filing",
+          href: "/services/registration/gst-filing",
         },
         {
           title: "Halal License & Certification",
 
-          href: "/services/gst-advisory",
+          href: "/services/registration/gst-advisory",
         },
         {
           title: "Icegate Registration",
 
-          href: "/services/input-tax-credit",
+          href: "/services/registration/input-tax-credit",
         },
         {
           title: "Import And Export Code",
 
-          href: "/services/e-way-bill",
+          href: "/services/registration/e-way-bill",
         },
         {
           title: "Iso Registration",
 
-          href: "/services/gst-audit",
+          href: "/services/registration/gst-audit",
         },
         {
           title: "Esic / Epfo Registration",
 
-          href: "/services/gst-annual-return",
+          href: "/services/registration/gst-annual-return",
         },
         {
           title: "Drugs License",
 
-          href: "/services/lut-filing",
+          href: "/services/registration/lut-filing",
         },
         {
           title: "Udyam Registration ",
 
-          href: "/services/gst-refund",
+          href: "/services/registration/gst-refund",
         },
       ],
     },
     {
       title: "Goods And Service Tax Matters",
+      href: "/services/gst",
       submenu: [
         {
           title: "Gst Registration",
 
-          href: "/services/private-limited",
+          href: "/services/gst/private-limited",
         },
         {
           title: "Gst Return Filling",
 
-          href: "/services/llp",
+          href: "/services/gst/llp",
         },
         {
           title: "Gst Annual Return Filling",
 
-          href: "/services/opc",
+          href: "/services/gst/opc",
         },
         {
           title: "Gst Accounting",
 
-          href: "/services/partnership",
+          href: "/services/gst/partnership",
         },
         {
           title: "Gst Amedment (Filling))",
 
-          href: "/services/sole-proprietorship",
+          href: "/services/gst/sole-proprietorship",
         },
         {
           title: "Gst Notices Reply",
 
-          href: "/services/msme",
+          href: "/services/gst/msme",
         },
         {
           title: "Gst Lut Forms",
 
-          href: "/services/startup-india",
+          href: "/services/gst/startup-india",
         },
         {
           title: "Gst Refund Cases",
 
-          href: "/services/section-8",
+          href: "/services/gst/section-8",
         },
         {
           title: "Gst Revocation",
 
-          href: "/services/nidhi-company",
+          href: "/services/gst/nidhi-company",
         },
         {
           title: "Gst 10",
 
-          href: "/services/foreign-company",
+          href: "/services/gst/foreign-company",
         },
       ],
     },
     {
       title: "Income Tax Matters",
+      href: "/services/itm",
       submenu: [
         {
           title: "Income Tax E Fillings",
 
-          href: "/services/annual-compliance",
+          href: "/services/itm/annual-compliance",
         },
         {
           title: "Business Tax E-Filling",
 
-          href: "/services/roc-filing",
+          href: "/services/itm/roc-filing",
         },
         {
           title: "Itr-1 Return Filling",
 
-          href: "/services/director-kyc",
+          href: "/services/itm/director-kyc",
         },
         {
           title: "Itr-2 Return Filling",
 
-          href: "/services/din-application",
+          href: "/services/itm/din-application",
         },
         {
           title: "Itr-3 Return Fillings",
 
-          href: "/services/company-changes",
+          href: "/services/itm/company-changes",
         },
         {
           title: "Itr-4 Return Filling",
 
-          href: "/services/fema-compliance",
+          href: "/services/itm/fema-compliance",
         },
         {
           title: "Itr-5 Return Filling",
 
-          href: "/services/legal-metrology",
+          href: "/services/itm/legal-metrology",
         },
         {
           title: "Itr-6 Return Filling",
 
-          href: "/services/trademark",
+          href: "/services/itm/trademark",
         },
         {
           title: "Itr-7 Return Filling",
 
-          href: "/services/iso-certification",
+          href: "/services/itm/iso-certification",
         },
         {
           title: "Tan Registration",
 
-          href: "/services/esi-pf-registration",
+          href: "/services/itm/esi-pf-registration",
         },
         {
           title: "Tds Return Filling",
 
-          href: "/services/esi-pf-registration",
+          href: "/services/itm/esi-pf-registration",
         },
         {
           title: "Tds Refund",
 
-          href: "/services/esi-pf-registration",
+          href: "/services/itm/esi-pf-registration",
         },
         {
           title: "Income Tax Notice",
 
-          href: "/services/esi-pf-registration",
+          href: "/services/itm/esi-pf-registration",
         },
       ],
     },
     {
       title: "Ministry Of Corporate Affairs (Mca)",
+      href: "/services/mca",
       submenu: [
         {
           title: "Company Compliance",
 
-          href: "/services/bookkeeping",
+          href: "/services/mca/bookkeeping",
         },
         {
           title: "Llp Compliance",
 
-          href: "/services/financial-statements",
+          href: "/services/mca/financial-statements",
         },
         {
           title: "Opc Compliance",
 
-          href: "/services/payroll",
+          href: "/services/mca/payroll",
         },
         {
           title: "Name Change - Company",
 
-          href: "/services/tds-returns",
+          href: "/services/mca/tds-returns",
         },
         {
           title: "Registered Office Change",
 
-          href: "/services/business-valuation",
+          href: "/services/mca/business-valuation",
         },
         {
           title: "Din Ekyc Filing",
 
-          href: "/services/cfo-services",
+          href: "/services/mca/cfo-services",
         },
         {
           title: "Din Reactivation",
 
-          href: "/services/internal-audit",
+          href: "/services/mca/internal-audit",
         },
         {
           title: "Director Change",
-          href: "/services/inventory-management",
+          href: "/services/mca/inventory-management",
         },
         {
           title: "Financial Projections",
 
-          href: "/services/financial-projections",
+          href: "/services/mca/financial-projections",
         },
         {
           title: "Remove Director",
 
-          href: "/services/mis-reporting",
+          href: "/services/mca/mis-reporting",
         },
         {
           title: "Adt-1 Filing",
 
-          href: "/services/financial-projections",
+          href: "/services/mca/financial-projections",
         },
         {
           title: "Dpt-3 Filing",
-          href: "/services/financial-projections",
+          href: "/services/mca/financial-projections",
         },
         {
           title: "Llp Form 11 Filing",
-          href: "/services/financial-projections",
+          href: "/services/mca/financial-projections",
         },
         {
           title: "Others Roc Compliance",
 
-          href: "/services/financial-projections",
+          href: "/services/mca/financial-projections",
         },
       ],
     },
@@ -380,13 +384,14 @@ export default function Navbar() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <button className="flex items-center gap-1 text-black hover:text-black/60 transition py-2">
-         <NavLink href="/services"> Services </NavLink><ChevronDown className="h-4 w-4" />
+        <button className="flex items-center justify-center gap-1 text-black hover:text-black/60 transition py-2">
+          <NavLink href="/services"> Services </NavLink>
+          <ChevronDown className="h-4 w-4" />
         </button>
 
         <div
           ref={dropdownRef}
-          className="hidden absolute top-full left-0 w-64 bg-white rounded-lg shadow-lg mt-1"
+          className="hidden absolute top-full right-0 w-64 bg-white border border-black rounded-lg shadow-lg mt-1"
         >
           <div className="py-2">
             {servicesMenu.map((menu) => (
@@ -394,11 +399,11 @@ export default function Navbar() {
                 key={menu.title}
                 className="relative group/submenu px-4 py-2 hover:bg-gray-100"
               >
-                <button className="w-full text-left flex items-center justify-between">
+                <Link href={`${menu.href}`} className="w-full text-left flex items-center justify-between text-black">
                   <span className="text-sm font-medium">{menu.title}</span>
                   <CircleChevronRight className="h-4 w-4" />
-                </button>
-                <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[640px] bg-white rounded-lg shadow-lg ml-1">
+                </Link>
+                <div className="hidden group-hover/submenu:block absolute top-0 right-full w-[640px] bg-white border border-black rounded-lg shadow-lg mr-1">
                   <div className="grid grid-cols-2 gap-4 p-4">
                     {menu.submenu.map((item) => (
                       <ServiceItem
@@ -434,7 +439,7 @@ export default function Navbar() {
     children: React.ReactNode;
   }) => {
     return (
-      <Link href={href} className="text-white hover:text-white/90 transition">
+      <Link href={href} className="text-gray-700 hover:text-gray-700/90 transition">
         {children}
       </Link>
     );
@@ -443,7 +448,7 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className=" flex gap-32 items-center py-4">
+        <div className=" flex justify-between items-center py-4">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <Calculator className="h-8 w-8 text-blue-600" />
@@ -453,16 +458,16 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden justify-between md:flex md:items-center md:space-x-8 ">
-            <div className=" flex justify-center items-center space-x-4">
+            <div className=" flex justify-center items-center gap-5 space-x-4">
               <Link href="/" className="text-gray-700 hover:text-blue-600">
                 Home
               </Link>
               {/* <Link
-              href="/services"
-              className="text-gray-700 hover:text-blue-600"
-            >
-              Services
-            </Link> */}
+                href="/services"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Services
+              </Link> */}
               <ServicesDropdown />
               <Link href="/about" className="text-gray-700 hover:text-blue-600">
                 About Us
@@ -480,7 +485,6 @@ export default function Navbar() {
                 Contact
               </Link>
             </div>
-          </div>
           <div className="">
             {session ? (
               <div className="relative">
@@ -530,6 +534,7 @@ export default function Navbar() {
                 </Link>
               </div>
             )}
+          </div>
           </div>
 
           {/* Mobile menu button */}
