@@ -381,7 +381,12 @@ export default function Navbar() {
         onMouseLeave={handleMouseLeave}
       >
         <button className="flex items-center gap-1 text-black hover:text-black/60 transition py-2">
-         <NavLink href="/services"> Services </NavLink><ChevronDown className="h-4 w-4" />
+        <Link
+              href="/services"
+              className="text-gray-700 hover:text-blue-600"
+            >
+              Services
+            </Link> 
         </button>
 
         <div
