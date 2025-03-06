@@ -456,7 +456,7 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
               >
                 <Image
-                  src="/placeholder.svg?height=600&width=600"
+                  src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40"
                   alt="Tax professionals at work"
                   width={600}
                   height={600}
