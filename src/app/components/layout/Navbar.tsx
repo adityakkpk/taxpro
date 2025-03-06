@@ -262,7 +262,7 @@ export default function Navbar() {
         {
           title: "Company Compliance",
 
-          href: "/services/mca/bookkeeping",
+          href: "/services/mca/book-keeping",
         },
         {
           title: "Llp Compliance",
