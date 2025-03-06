@@ -77,7 +77,7 @@ export default function SubscribePopup({ onClose, setIsSubscribed }: { onClose: 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-10 rounded-lg relative max-w-md w-full mx-4">
-        <h2 className="text-2xl font-bold mb-3">Subscribe to TaxPro</h2>
+        <h2 className="text-2xl font-bold mb-3">Subscribe to AARTax</h2>
         <p className="text-gray-800 mb-6">
           Stay updated with our latest tax services and expert advice.
         </p>

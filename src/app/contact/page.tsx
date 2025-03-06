@@ -102,7 +102,7 @@ export default function Contact() {
                 <Mail className="w-6 h-6 text-blue-600 mt-1" />
                 <div>
                   <h3 className="font-semibold">Email</h3>
-                  <p className="text-gray-600">info@taxpro.com</p>
+                  <p className="text-gray-600">info@AARTax.com</p>
                 </div>
               </div>
 

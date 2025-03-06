@@ -825,7 +825,7 @@ export default function Home() {
                       <Mail className="h-6 w-6 text-blue-600 mr-3 mt-1" />
                       <div>
                         <h4 className="font-bold">Email Us</h4>
-                        <p className="text-gray-600">info@taxpro.example.com</p>
+                        <p className="text-gray-600">info@AARTax.example.com</p>
                       </div>
                     </div>
                     <div className="flex items-start">
@@ -957,7 +957,7 @@ export default function Home() {
             <div>
               <Link href="/" className="flex items-center space-x-2 mb-4">
                 <DollarSign className="h-8 w-8 text-blue-400" />
-                <span className="text-xl font-bold">TaxPro</span>
+                <span className="text-xl font-bold">AARTax</span>
               </Link>
               <p className="text-gray-400 mb-4">
                 Professional tax services for individuals and businesses.
@@ -1150,7 +1150,7 @@ export default function Home() {
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>
-              &copy; {new Date().getFullYear()} TaxPro. All rights reserved.
+              &copy; {new Date().getFullYear()} AARTax. All rights reserved.
             </p>
           </div>
         </div>
@@ -1288,12 +1288,12 @@ function Accordion({ question, answer }: { question: string; answer: string }) {
 
 //       {/* About Us */}
 //       <main className="mx-auto px-4 py-16 bg-white max-w-screen-xl mb-5">
-//         <h2 className="text-3xl font-bold text-center mb-8">About TaxPro</h2>
+//         <h2 className="text-3xl font-bold text-center mb-8">About AARTax</h2>
 //         <div className="grid md:grid-cols-2 gap-12 items-center">
 //           <div>
 //             <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
 //             <p className="text-gray-600 mb-4">
-//               At TaxPro, we are committed to providing exceptional tax services
+//               At AARTax, we are committed to providing exceptional tax services
 //               and financial guidance to individuals and businesses. Our mission
 //               is to help our clients navigate the complex world of taxation
 //               while maximizing their financial potential.
@@ -1353,7 +1353,7 @@ function Accordion({ question, answer }: { question: string; answer: string }) {
 //       <main className="px-4 py-16 bg-gradient-to-b from-gray-50 to-gray-100">
 //         <div className="max-w-screen-xl mx-auto ">
 //           <h2 className="text-3xl font-bold text-center mb-8">
-//             Why Choose TaxPro?
+//             Why Choose AARTax?
 //           </h2>
 //           <div className="grid md:grid-cols-3 gap-8 mb-16">
 //             <div className="bg-white p-8 rounded-xl shadow-lg">

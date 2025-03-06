@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <Calculator className="h-8 w-8 text-blue-400" />
-              <span className="text-xl font-bold">TaxPro</span>
+              <span className="text-xl font-bold">AARTax</span>
             </div>
             <p className="text-gray-400">
               Professional tax services and consultancy for individuals and businesses.
@@ -48,7 +48,7 @@ export default function Footer() {
               <li>123 Tax Street</li>
               <li>New York, NY 10001</li>
               <li>Phone: (555) 123-4567</li>
-              <li>Email: info@taxpro.com</li>
+              <li>Email: info@AARTax.com</li>
             </ul>
           </div>
 
@@ -72,7 +72,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} TaxPro. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} AARTax. All rights reserved.</p>
         </div>
       </div>
     </footer>

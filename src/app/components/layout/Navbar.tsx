@@ -345,7 +345,7 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-">
+            <div className="flex items-center">
               <span className="font-medium text-[#3c5473] text-sm">
                 {title}
               </span>
@@ -385,17 +385,17 @@ export default function Navbar() {
         onMouseLeave={handleMouseLeave}
       >
         <button className="flex items-center gap-1 text-black hover:text-black/60 transition py-2">
-        <Link
-              href="/services"
-              className="text-gray-700 hover:text-blue-600"
-            >
-              Services
-            </Link> 
+          <Link
+            href="/services"
+            className="text-gray-700 hover:text-blue-600 flex items-center justify-center"
+          >
+            Services <ChevronDown />
+          </Link>
         </button>
 
         <div
           ref={dropdownRef}
-          className="hidden absolute top-full right-0 w-64 bg-white border border-black rounded-lg shadow-lg mt-1"
+          className="hidden absolute top-full left-0 w-64 bg-white border border-black rounded-lg shadow-lg mt-1"
         >
           <div className="py-2">
             {servicesMenu.map((menu) => (
@@ -403,11 +403,14 @@ export default function Navbar() {
                 key={menu.title}
                 className="relative group/submenu px-4 py-2 hover:bg-gray-100"
               >
-                <Link href={`${menu.href}`} className="w-full text-left flex items-center justify-between text-black">
+                <Link
+                  href={`${menu.href}`}
+                  className="w-full text-left flex items-center justify-between text-black"
+                >
                   <span className="text-sm font-medium">{menu.title}</span>
                   <CircleChevronRight className="h-4 w-4" />
                 </Link>
-                <div className="hidden group-hover/submenu:block absolute top-0 right-full w-[640px] bg-white border border-black rounded-lg shadow-lg mr-1">
+                <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[530px] bg-white border border-black rounded-lg shadow-lg ml-1">
                   <div className="grid grid-cols-2 gap-4 p-4">
                     {menu.submenu.map((item) => (
                       <ServiceItem
@@ -443,7 +446,10 @@ export default function Navbar() {
     children: React.ReactNode;
   }) => {
     return (
-      <Link href={href} className="text-gray-700 hover:text-gray-700/90 transition">
+      <Link
+        href={href}
+        className="text-gray-700 hover:text-gray-700/90 transition"
+      >
         {children}
       </Link>
     );
@@ -456,7 +462,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <Calculator className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">TaxPro</span>
+              <span className="text-xl font-bold text-gray-900">AARTax</span>
             </Link>
           </div>
 
@@ -489,6 +495,7 @@ export default function Navbar() {
                 Contact
               </Link>
             </div>
+          </div>
           <div className="">
             {session ? (
               <div className="relative">
@@ -538,7 +545,6 @@ export default function Navbar() {
                 </Link>
               </div>
             )}
-          </div>
           </div>
 
           {/* Mobile menu button */}
