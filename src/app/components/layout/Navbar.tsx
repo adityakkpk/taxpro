@@ -375,7 +375,7 @@ export default function Navbar() {
     const handleMouseLeave = () => {
       timeoutRef.current = setTimeout(() => {
         dropdownRef.current?.classList.add("hidden");
-      }, 300);
+      }, 500);
     };
 
     return (
@@ -402,6 +402,7 @@ export default function Navbar() {
               <div
                 key={menu.title}
                 className="relative group/submenu px-4 py-2 hover:bg-gray-100"
+                onClick={handleMouseLeave}
               >
                 <Link
                   href={`${menu.href}`}
@@ -413,11 +414,13 @@ export default function Navbar() {
                 <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[530px] bg-white border border-black rounded-lg shadow-lg ml-1">
                   <div className="grid grid-cols-2 gap-4 p-4">
                     {menu.submenu.map((item) => (
-                      <ServiceItem
-                        key={item.title}
-                        title={item.title}
-                        href={item.href}
-                      />
+                      <div onClick={handleMouseLeave}>
+                        <ServiceItem
+                          key={item.title}
+                          title={item.title}
+                          href={item.href}
+                        />
+                      </div>
                     ))}
                     {/* {menu.submenu.slice(0, 10).map((item) => (
                       <ServiceItem
