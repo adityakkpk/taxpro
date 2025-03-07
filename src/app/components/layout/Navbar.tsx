@@ -411,7 +411,7 @@ export default function Navbar() {
                   <span className="text-sm font-medium">{menu.title}</span>
                   <CircleChevronRight className="h-4 w-4" />
                 </Link>
-                <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[530px] bg-white border border-black rounded-lg shadow-lg ml-1">
+                <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[450px] bg-white border border-black rounded-lg shadow-lg ml-1">
                   <div className="grid grid-cols-2 gap-4 p-4">
                     {menu.submenu.map((item) => (
                       <div onClick={handleMouseLeave}>
