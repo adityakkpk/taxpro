@@ -47,8 +47,8 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li>D 52, Lajpat Nagar Part 1</li>
               <li>New Delhi, India-110024</li>
-              <li>Phone: +91-9800009801, +91-9355623204</li>
-              <li>Email: conatact@aartaxindia.com</li>
+              <li>Phone: +91-9800009801,<br/> +91-9355623204</li>
+              <li>Email: contact@aartaxindia.com</li>
             </ul>
           </div>
 
