@@ -3,7 +3,7 @@ import React from "react";
 
 const Hero = ({
   imageUrl = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
-  pageName = "AARTax",
+  pageName = "AAR TAX INDIA",
   pageDesc = "",
 }: {
   imageUrl: string;

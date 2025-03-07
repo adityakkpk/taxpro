@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       newUser.name,
       newUser.email,
       "New User has Register",
-      "New User has Register to AARTax"
+      "New User has Register to AAR TAX INDIA"
     );
 
     return Response.json(

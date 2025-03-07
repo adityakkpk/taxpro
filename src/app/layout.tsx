@@ -11,7 +11,7 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AARTax - Professional Tax Services",
+  title: "AAR TAX INDIA - Professional Tax Services",
   description: "Expert tax consultation and enquiry services",
   icons: {
     icon: [

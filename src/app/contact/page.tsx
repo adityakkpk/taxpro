@@ -83,9 +83,9 @@ export default function Contact() {
                 <div>
                   <h3 className="font-semibold">Address</h3>
                   <p className="text-gray-600">
-                    123 Tax Street
+                    D 52, Lajpat Nagar Part 1
                     <br />
-                    New York, NY 10001
+                    New Delhi, India-110024
                   </p>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function Contact() {
                 <Phone className="w-6 h-6 text-blue-600 mt-1" />
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <p className="text-gray-600">(555) 123-4567</p>
+                  <p className="text-gray-600">Phone: +91-9800009801, +91-9355623204</p>
                 </div>
               </div>
 
@@ -102,7 +102,7 @@ export default function Contact() {
                 <Mail className="w-6 h-6 text-blue-600 mt-1" />
                 <div>
                   <h3 className="font-semibold">Email</h3>
-                  <p className="text-gray-600">info@AARTax.com</p>
+                  <p className="text-gray-600">contact@aartaxindia.com</p>
                 </div>
               </div>
 

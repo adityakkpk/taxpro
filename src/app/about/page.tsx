@@ -13,7 +13,7 @@ export default function About() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <Hero imageUrl='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40' pageName='About AARTax' pageDesc='Your trusted partner in professional tax services and financial planning' />
+      <Hero imageUrl='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40' pageName='About AAR TAX INDIA' pageDesc='Your trusted partner in professional tax services and financial planning' />
       
       {/* Mission Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -21,7 +21,7 @@ export default function About() {
           <div>
             <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
             <p className="text-gray-600 mb-4">
-              At AARTax, we are committed to providing exceptional tax services and financial guidance
+              At AAR TAX INDIA, we are committed to providing exceptional tax services and financial guidance
               to individuals and businesses. Our mission is to help our clients navigate the complex
               world of taxation while maximizing their financial potential.
             </p>
