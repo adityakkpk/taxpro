@@ -122,20 +122,28 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
         
         <div className="mb-6">
-          <nav className="flex space-x-4">
-            {["enquiries", "subscribers", "contacts", "users"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-md ${
-                  activeTab === tab
-                    ? "bg-blue-500 text-white"
-                    : "bg-white text-gray-700"
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
+          <nav className="flex justify-between items-center">
+            <div className="flex space-x-4">
+              {["enquiries", "subscribers", "contacts", "users"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-md ${
+                    activeTab === tab
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-gray-700"
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+            <Button 
+              onClick={() => router.push('/admin/create-page')}
+              className="bg-green-500 hover:bg-green-600 text-white"
+            >
+              Add New Page
+            </Button>
           </nav>
         </div>
 

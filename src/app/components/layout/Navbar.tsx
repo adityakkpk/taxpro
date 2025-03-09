@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/src/app/components/ui/button";
@@ -25,315 +25,332 @@ export default function Navbar() {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string>("");
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
+  const [servicesMenu, setServicesMenu] = useState<any>([])
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
 
-  const servicesMenu = [
-    {
-      title: "Incorporation",
-      href: "/services/incorporation",
-      submenu: [
-        {
-          title: "Proprietorship Firm Incorporation.",
+  const fetchMenus = async () => {
+    // Fetch menus from an API endpoint
+    const response = await fetch("/api/admin/menus");
+    return await response.json();
+  }
 
-          href: "/services/incorporation/itr-filing",
-        },
-        {
-          title: "Partnership Firm Incorporation.",
+  // const servicesMenu = [
+  //   {
+  //     title: "Incorporation",
+  //     href: "/services/incorporation",
+  //     submenu: [
+  //       {
+  //         title: "Proprietorship Firm Incorporation.",
 
-          href: "/services/incorporation/tax-planning",
-        },
-        {
-          title: "One Person Company",
+  //         href: "/services/incorporation/itr-filing",
+  //       },
+  //       {
+  //         title: "Partnership Firm Incorporation.",
 
-          href: "/services/incorporation/advance-tax",
-        },
-        {
-          title: "Limited Liability Partnership",
+  //         href: "/services/incorporation/tax-planning",
+  //       },
+  //       {
+  //         title: "One Person Company",
 
-          href: "/services/incorporation/form-16",
-        },
-        {
-          title: "Private Limited Company",
+  //         href: "/services/incorporation/advance-tax",
+  //       },
+  //       {
+  //         title: "Limited Liability Partnership",
 
-          href: "/services/incorporation/capital-gains",
-        },
+  //         href: "/services/incorporation/form-16",
+  //       },
+  //       {
+  //         title: "Private Limited Company",
 
-        {
-          title: "Section 8 Company",
+  //         href: "/services/incorporation/capital-gains",
+  //       },
 
-          href: "/services/incorporation/huf-filing",
-        },
-        {
-          title: "Public Limited Company ",
+  //       {
+  //         title: "Section 8 Company",
 
-          href: "/services/incorporation/nri-taxation",
-        },
-        {
-          title: "Trust Registration",
+  //         href: "/services/incorporation/huf-filing",
+  //       },
+  //       {
+  //         title: "Public Limited Company ",
 
-          href: "/services/incorporation/tax-saving",
-        },
-        {
-          title: "Trademark",
+  //         href: "/services/incorporation/nri-taxation",
+  //       },
+  //       {
+  //         title: "Trust Registration",
 
-          href: "/services/incorporation/tax-refund",
-        },
-      ],
-    },
-    {
-      title: "Registration",
-      href: "/services/registration",
-      submenu: [
-        {
-          title: "Fssai Registration",
+  //         href: "/services/incorporation/tax-saving",
+  //       },
+  //       {
+  //         title: "Trademark",
 
-          href: "/services/registration/gst-registration",
-        },
-        {
-          title: "Fssai License",
+  //         href: "/services/incorporation/tax-refund",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Registration",
+  //     href: "/services/registration",
+  //     submenu: [
+  //       {
+  //         title: "Fssai Registration",
 
-          href: "/services/registration/gst-filing",
-        },
-        {
-          title: "Halal License & Certification",
+  //         href: "/services/registration/gst-registration",
+  //       },
+  //       {
+  //         title: "Fssai License",
 
-          href: "/services/registration/gst-advisory",
-        },
-        {
-          title: "Icegate Registration",
+  //         href: "/services/registration/gst-filing",
+  //       },
+  //       {
+  //         title: "Halal License & Certification",
 
-          href: "/services/registration/input-tax-credit",
-        },
-        {
-          title: "Import And Export Code",
+  //         href: "/services/registration/gst-advisory",
+  //       },
+  //       {
+  //         title: "Icegate Registration",
 
-          href: "/services/registration/e-way-bill",
-        },
-        {
-          title: "Iso Registration",
+  //         href: "/services/registration/input-tax-credit",
+  //       },
+  //       {
+  //         title: "Import And Export Code",
 
-          href: "/services/registration/gst-audit",
-        },
-        {
-          title: "Esic / Epfo Registration",
+  //         href: "/services/registration/e-way-bill",
+  //       },
+  //       {
+  //         title: "Iso Registration",
 
-          href: "/services/registration/gst-annual-return",
-        },
-        {
-          title: "Drugs License",
+  //         href: "/services/registration/gst-audit",
+  //       },
+  //       {
+  //         title: "Esic / Epfo Registration",
 
-          href: "/services/registration/lut-filing",
-        },
-        {
-          title: "Udyam Registration ",
+  //         href: "/services/registration/gst-annual-return",
+  //       },
+  //       {
+  //         title: "Drugs License",
 
-          href: "/services/registration/gst-refund",
-        },
-      ],
-    },
-    {
-      title: "Goods And Service Tax Matters",
-      href: "/services/gst",
-      submenu: [
-        {
-          title: "Gst Registration",
+  //         href: "/services/registration/lut-filing",
+  //       },
+  //       {
+  //         title: "Udyam Registration ",
 
-          href: "/services/gst/private-limited",
-        },
-        {
-          title: "Gst Return Filling",
+  //         href: "/services/registration/gst-refund",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Goods And Service Tax Matters",
+  //     href: "/services/gst",
+  //     submenu: [
+  //       {
+  //         title: "Gst Registration",
 
-          href: "/services/gst/llp",
-        },
-        {
-          title: "Gst Annual Return Filling",
+  //         href: "/services/gst/private-limited",
+  //       },
+  //       {
+  //         title: "Gst Return Filling",
 
-          href: "/services/gst/opc",
-        },
-        {
-          title: "Gst Accounting",
+  //         href: "/services/gst/llp",
+  //       },
+  //       {
+  //         title: "Gst Annual Return Filling",
 
-          href: "/services/gst/partnership",
-        },
-        {
-          title: "Gst Amedment (Filling))",
+  //         href: "/services/gst/opc",
+  //       },
+  //       {
+  //         title: "Gst Accounting",
 
-          href: "/services/gst/sole-proprietorship",
-        },
-        {
-          title: "Gst Notices Reply",
+  //         href: "/services/gst/partnership",
+  //       },
+  //       {
+  //         title: "Gst Amedment (Filling))",
 
-          href: "/services/gst/msme",
-        },
-        {
-          title: "Gst Lut Forms",
+  //         href: "/services/gst/sole-proprietorship",
+  //       },
+  //       {
+  //         title: "Gst Notices Reply",
 
-          href: "/services/gst/startup-india",
-        },
-        {
-          title: "Gst Refund Cases",
+  //         href: "/services/gst/msme",
+  //       },
+  //       {
+  //         title: "Gst Lut Forms",
 
-          href: "/services/gst/section-8",
-        },
-        {
-          title: "Gst Revocation",
+  //         href: "/services/gst/startup-india",
+  //       },
+  //       {
+  //         title: "Gst Refund Cases",
 
-          href: "/services/gst/nidhi-company",
-        },
-        {
-          title: "Gst 10",
+  //         href: "/services/gst/section-8",
+  //       },
+  //       {
+  //         title: "Gst Revocation",
 
-          href: "/services/gst/foreign-company",
-        },
-      ],
-    },
-    {
-      title: "Income Tax Matters",
-      href: "/services/itm",
-      submenu: [
-        {
-          title: "Income Tax E Fillings",
+  //         href: "/services/gst/nidhi-company",
+  //       },
+  //       {
+  //         title: "Gst 10",
 
-          href: "/services/itm/annual-compliance",
-        },
-        {
-          title: "Business Tax E-Filling",
+  //         href: "/services/gst/foreign-company",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Income Tax Matters",
+  //     href: "/services/itm",
+  //     submenu: [
+  //       {
+  //         title: "Income Tax E Fillings",
 
-          href: "/services/itm/roc-filing",
-        },
-        {
-          title: "Itr-1 Return Filling",
+  //         href: "/services/itm/annual-compliance",
+  //       },
+  //       {
+  //         title: "Business Tax E-Filling",
 
-          href: "/services/itm/director-kyc",
-        },
-        {
-          title: "Itr-2 Return Filling",
+  //         href: "/services/itm/roc-filing",
+  //       },
+  //       {
+  //         title: "Itr-1 Return Filling",
 
-          href: "/services/itm/din-application",
-        },
-        {
-          title: "Itr-3 Return Fillings",
+  //         href: "/services/itm/director-kyc",
+  //       },
+  //       {
+  //         title: "Itr-2 Return Filling",
 
-          href: "/services/itm/company-changes",
-        },
-        {
-          title: "Itr-4 Return Filling",
+  //         href: "/services/itm/din-application",
+  //       },
+  //       {
+  //         title: "Itr-3 Return Fillings",
 
-          href: "/services/itm/fema-compliance",
-        },
-        {
-          title: "Itr-5 Return Filling",
+  //         href: "/services/itm/company-changes",
+  //       },
+  //       {
+  //         title: "Itr-4 Return Filling",
 
-          href: "/services/itm/legal-metrology",
-        },
-        {
-          title: "Itr-6 Return Filling",
+  //         href: "/services/itm/fema-compliance",
+  //       },
+  //       {
+  //         title: "Itr-5 Return Filling",
 
-          href: "/services/itm/trademark",
-        },
-        {
-          title: "Itr-7 Return Filling",
+  //         href: "/services/itm/legal-metrology",
+  //       },
+  //       {
+  //         title: "Itr-6 Return Filling",
 
-          href: "/services/itm/iso-certification",
-        },
-        {
-          title: "Tan Registration",
+  //         href: "/services/itm/trademark",
+  //       },
+  //       {
+  //         title: "Itr-7 Return Filling",
 
-          href: "/services/itm/esi-pf-registration",
-        },
-        {
-          title: "Tds Return Filling",
+  //         href: "/services/itm/iso-certification",
+  //       },
+  //       {
+  //         title: "Tan Registration",
 
-          href: "/services/itm/esi-pf-registration",
-        },
-        {
-          title: "Tds Refund",
+  //         href: "/services/itm/esi-pf-registration",
+  //       },
+  //       {
+  //         title: "Tds Return Filling",
 
-          href: "/services/itm/esi-pf-registration",
-        },
-        {
-          title: "Income Tax Notice",
+  //         href: "/services/itm/esi-pf-registration",
+  //       },
+  //       {
+  //         title: "Tds Refund",
 
-          href: "/services/itm/esi-pf-registration",
-        },
-      ],
-    },
-    {
-      title: "Ministry Of Corporate Affairs (Mca)",
-      href: "/services/mca",
-      submenu: [
-        {
-          title: "Company Compliance",
+  //         href: "/services/itm/esi-pf-registration",
+  //       },
+  //       {
+  //         title: "Income Tax Notice",
 
-          href: "/services/mca/book-keeping",
-        },
-        {
-          title: "Llp Compliance",
+  //         href: "/services/itm/esi-pf-registration",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Ministry Of Corporate Affairs (Mca)",
+  //     href: "/services/mca",
+  //     submenu: [
+  //       {
+  //         title: "Company Compliance",
 
-          href: "/services/mca/financial-statements",
-        },
-        {
-          title: "Opc Compliance",
+  //         href: "/services/mca/book-keeping",
+  //       },
+  //       {
+  //         title: "Llp Compliance",
 
-          href: "/services/mca/payroll",
-        },
-        {
-          title: "Name Change - Company",
+  //         href: "/services/mca/financial-statements",
+  //       },
+  //       {
+  //         title: "Opc Compliance",
 
-          href: "/services/mca/tds-returns",
-        },
-        {
-          title: "Registered Office Change",
+  //         href: "/services/mca/payroll",
+  //       },
+  //       {
+  //         title: "Name Change - Company",
 
-          href: "/services/mca/business-valuation",
-        },
-        {
-          title: "Din Ekyc Filing",
+  //         href: "/services/mca/tds-returns",
+  //       },
+  //       {
+  //         title: "Registered Office Change",
 
-          href: "/services/mca/cfo-services",
-        },
-        {
-          title: "Din Reactivation",
+  //         href: "/services/mca/business-valuation",
+  //       },
+  //       {
+  //         title: "Din Ekyc Filing",
 
-          href: "/services/mca/internal-audit",
-        },
-        {
-          title: "Director Change",
-          href: "/services/mca/inventory-management",
-        },
-        {
-          title: "Financial Projections",
+  //         href: "/services/mca/cfo-services",
+  //       },
+  //       {
+  //         title: "Din Reactivation",
 
-          href: "/services/mca/financial-projections",
-        },
-        {
-          title: "Remove Director",
+  //         href: "/services/mca/internal-audit",
+  //       },
+  //       {
+  //         title: "Director Change",
+  //         href: "/services/mca/inventory-management",
+  //       },
+  //       {
+  //         title: "Financial Projections",
 
-          href: "/services/mca/mis-reporting",
-        },
-        {
-          title: "Adt-1 Filing",
+  //         href: "/services/mca/financial-projections",
+  //       },
+  //       {
+  //         title: "Remove Director",
 
-          href: "/services/mca/financial-projections",
-        },
-        {
-          title: "Dpt-3 Filing",
-          href: "/services/mca/financial-projections",
-        },
-        {
-          title: "Llp Form 11 Filing",
-          href: "/services/mca/financial-projections",
-        },
-        {
-          title: "Others Roc Compliance",
+  //         href: "/services/mca/mis-reporting",
+  //       },
+  //       {
+  //         title: "Adt-1 Filing",
 
-          href: "/services/mca/financial-projections",
-        },
-      ],
-    },
-  ];
+  //         href: "/services/mca/financial-projections",
+  //       },
+  //       {
+  //         title: "Dpt-3 Filing",
+  //         href: "/services/mca/financial-projections",
+  //       },
+  //       {
+  //         title: "Llp Form 11 Filing",
+  //         href: "/services/mca/financial-projections",
+  //       },
+  //       {
+  //         title: "Others Roc Compliance",
+
+  //         href: "/services/mca/financial-projections",
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  // const servicesMenu = fetchMenus();
+
+  useEffect(() => {
+    const getMenus = async () => {
+      const menus = await fetchMenus();
+      setServicesMenu(menus.data);
+    }
+    getMenus();
+  },[]);
 
   interface ServiceItemProps {
     title: string;
@@ -410,31 +427,31 @@ export default function Navbar() {
           className="hidden absolute top-full left-0 w-64 lg:w-72 bg-white border border-black rounded-lg shadow-lg mt-1 z-50"
         >
           <div className="py-2">
-            {servicesMenu.map((menu) => (
+            {servicesMenu.length > 0 && servicesMenu?.map((menu: { title: string; href: string; submenu: { title: string; href: string }[] }) => (
               <div
-                key={menu.title}
-                className="relative group/submenu px-4 py-2 hover:bg-gray-100"
-                onClick={handleMouseLeave}
+              key={menu.title}
+              className="relative group/submenu px-4 py-2 hover:bg-gray-100"
+              onClick={handleMouseLeave}
               >
-                <Link
-                  href={`${menu.href}`}
-                  className="w-full text-left flex items-center justify-between text-black"
-                >
-                  <span className="text-sm font-medium">{menu.title}</span>
-                  <CircleChevronRight className="h-4 w-4" />
-                </Link>
-                <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[300px] md:w-[450px] bg-white border border-black rounded-lg shadow-lg ml-1">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-                    {menu.submenu.map((item) => (
-                      <div key={item.title} onClick={handleMouseLeave}>
-                        <ServiceItem
-                          title={item.title}
-                          href={item.href}
-                        />
-                      </div>
-                    ))}
+              <Link
+                href={`${menu.href}`}
+                className="w-full text-left flex items-center justify-between text-black"
+              >
+                <span className="text-sm font-medium">{menu.title}</span>
+                <CircleChevronRight className="h-4 w-4" />
+              </Link>
+              <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[300px] md:w-[450px] bg-white border border-black rounded-lg shadow-lg ml-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                {menu.submenu?.map((item: { title: string; href: string }) => (
+                  <div key={item.title} onClick={handleMouseLeave}>
+                  <ServiceItem
+                    title={item.title}
+                    href={item.href}
+                  />
                   </div>
+                ))}
                 </div>
+              </div>
               </div>
             ))}
           </div>
@@ -464,7 +481,7 @@ export default function Navbar() {
   const MobileServiceMenu = () => {
     return (
       <div className="space-y-2">
-        {servicesMenu.map((menu) => (
+        {servicesMenu.length > 0 && servicesMenu?.map((menu: { title: string; href: string; submenu: { title: string; href: string }[] }) => (
           <div key={menu.title} className="px-3">
             <button
               className="flex items-center justify-between w-full text-base font-medium text-gray-700 py-2"
