@@ -1,18 +1,16 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-
-const menuPath = path.join(process.cwd(), 'src', 'app', 'api', 'menu.json');
+import connectDB from "@/src/lib/mongodb";
+import { Menu } from '@/src/app/models/Menu';
 
 export async function GET() {
   try {
-    const menuContent = await fs.readFile(menuPath, 'utf-8');
-    const menu = JSON.parse(menuContent);
-    return NextResponse.json({ data: menu });
+    await connectDB();
+    const menus = await Menu.find({}).sort({ createdAt: -1 });
+    return NextResponse.json({ data: menus });
   } catch (error) {
-    console.error('Error reading menu:', error);
+    console.error('Error fetching menus:', error);
     return NextResponse.json(
-      { message: 'Failed to fetch menu' },
+      { message: 'Failed to fetch menus' },
       { status: 500 }
     );
   }
@@ -20,37 +18,36 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    await connectDB();
     const { title, href, parentMenu } = await request.json();
-    const menuContent = await fs.readFile(menuPath, 'utf-8');
-    const menu = JSON.parse(menuContent);
-
-    console.log(menu)
 
     const newMenuItem = {
       title,
       href,
-      submenus: []
+      submenu: []
     };
 
-    // If parentmenu is provided, add as submenu
     if (parentMenu) {
-      const parentItem = menu.find((item: any) => item.title === parentMenu);
+      // Add as submenu item
+      const parentItem = await Menu.findOne({ title: parentMenu });
+      
       if (!parentItem) {
         return NextResponse.json(
           { message: 'Parent menu not found' },
           { status: 404 }
         );
       }
-      if (!parentItem.submenu) {
-        parentItem.submenu = [];
-      }
-      parentItem.submenu.push(newMenuItem);
+
+      await Menu.findByIdAndUpdate(
+        parentItem._id,
+        { $push: { submenu: newMenuItem } },
+        { new: true }
+      );
     } else {
-      // Add as main menu item if no parent
-      menu.push(newMenuItem);
+      // Add as main menu item
+      await Menu.create(newMenuItem);
     }
 
-    await fs.writeFile(menuPath, JSON.stringify(menu, null, 2));
     return NextResponse.json({ message: 'Menu item added successfully' });
   } catch (error) {
     console.error('Error adding menu item:', error);

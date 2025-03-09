@@ -1,27 +1,28 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-
-const menuPath = path.join(process.cwd(), 'src', 'app', 'api', 'menu.json');
+import connectDB from "@/src/lib/mongodb";
+import { Menu } from '@/src/app/models/Menu';
 
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const data = await request.json();
-    const menuContent = await fs.readFile(menuPath, 'utf-8');
-    let menu = JSON.parse(menuContent);
+    
+    const menu = await Menu.findOneAndUpdate(
+      { href: `/services/${params.id}` },
+      { $set: data },
+      { new: true }
+    );
 
-    // Find and update menu item
-    menu = menu.map((item: any) => {
-      if (item.href === `/services/${params.id}`) {
-        return { ...item, ...data };
-      }
-      return item;
-    });
+    if (!menu) {
+      return NextResponse.json(
+        { message: 'Menu not found' },
+        { status: 404 }
+      );
+    }
 
-    await fs.writeFile(menuPath, JSON.stringify(menu, null, 2));
     return NextResponse.json({ message: 'Menu item updated successfully' });
   } catch (error) {
     console.error('Error updating menu item:', error);
@@ -37,15 +38,19 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const menuContent = await fs.readFile(menuPath, 'utf-8');
-    let menu = JSON.parse(menuContent);
+    await connectDB();
+    
+    const menu = await Menu.findOneAndDelete({
+      href: `/services/${params.id}`
+    });
 
-    // Filter out the menu item
-    menu = menu.filter((item: any) => 
-      item.href !== `/services/${params.id}`
-    );
+    if (!menu) {
+      return NextResponse.json(
+        { message: 'Menu not found' },
+        { status: 404 }
+      );
+    }
 
-    await fs.writeFile(menuPath, JSON.stringify(menu, null, 2));
     return NextResponse.json({ message: 'Menu item deleted successfully' });
   } catch (error) {
     console.error('Error deleting menu item:', error);

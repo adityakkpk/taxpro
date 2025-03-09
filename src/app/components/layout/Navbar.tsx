@@ -433,13 +433,12 @@ export default function Navbar() {
               className="relative group/submenu px-4 py-2 hover:bg-gray-100"
               onClick={handleMouseLeave}
               >
-              <Link
-                href={`${menu.href}`}
-                className="w-full text-left flex items-center justify-between text-black"
+              <div
+                className="w-full text-left flex items-center cursor-pointer justify-between text-black"
               >
                 <span className="text-sm font-medium">{menu.title}</span>
                 <CircleChevronRight className="h-4 w-4" />
-              </Link>
+              </div>
               <div className="hidden group-hover/submenu:block absolute top-0 left-full w-[300px] md:w-[450px] bg-white border border-black rounded-lg shadow-lg ml-1">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
                 {menu.submenu?.map((item: { title: string; href: string }) => (
@@ -508,12 +507,11 @@ export default function Navbar() {
                       setExpandedMenu(null);
                     }}
                   >
-                    <Link
-                      href={item.href}
-                      className="block text-sm text-gray-600 hover:text-blue-600"
+                    <div
+                      className="block text-sm text-gray-600 cursor-pointer hover:text-blue-600"
                     >
                       {item.title}
-                    </Link>
+                    </div>
                   </div>
                 ))}
               </div>

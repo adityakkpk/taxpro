@@ -38,9 +38,9 @@ export default function CreatePageForm() {
         body: JSON.stringify(menuItem),
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to create page");
+        throw new Error(data.message || `Failed to create page: ${response.status}`);
       }
 
       toast.success("Page created successfully");

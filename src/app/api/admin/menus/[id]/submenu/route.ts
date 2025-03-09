@@ -1,30 +1,28 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-
-const menuPath = path.join(process.cwd(), 'src', 'app', 'api', 'menu.json');
+import connectDB from "@/src/lib/mongodb";
+import { Menu } from '@/src/app/models/Menu';
 
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const data = await request.json();
-    const menuContent = await fs.readFile(menuPath, 'utf-8');
-    let menu = JSON.parse(menuContent);
+    
+    const menu = await Menu.findOneAndUpdate(
+      { href: `/services/${params.id}` },
+      { $push: { submenu: data } },
+      { new: true }
+    );
 
-    // Find parent menu and add submenu item
-    menu = menu.map((item: any) => {
-      if (item.href === `/services/${params.id}`) {
-        return {
-          ...item,
-          submenu: [...(item.submenu || []), data]
-        };
-      }
-      return item;
-    });
+    if (!menu) {
+      return NextResponse.json(
+        { message: 'Menu not found' },
+        { status: 404 }
+      );
+    }
 
-    await fs.writeFile(menuPath, JSON.stringify(menu, null, 2));
     return NextResponse.json({ message: 'Submenu item added successfully' });
   } catch (error) {
     console.error('Error adding submenu item:', error);
@@ -40,22 +38,22 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const { submenuHref } = await request.json();
-    const menuContent = await fs.readFile(menuPath, 'utf-8');
-    let menu = JSON.parse(menuContent);
+    
+    const menu = await Menu.findOneAndUpdate(
+      { href: `/services/${params.id}` },
+      { $pull: { submenu: { href: submenuHref } } },
+      { new: true }
+    );
 
-    // Find parent menu and remove submenu item
-    menu = menu.map((item: any) => {
-      if (item.href === `/services/${params.id}`) {
-        return {
-          ...item,
-          submenu: item.submenu.filter((sub: any) => sub.href !== submenuHref)
-        };
-      }
-      return item;
-    });
+    if (!menu) {
+      return NextResponse.json(
+        { message: 'Menu not found' },
+        { status: 404 }
+      );
+    }
 
-    await fs.writeFile(menuPath, JSON.stringify(menu, null, 2));
     return NextResponse.json({ message: 'Submenu item deleted successfully' });
   } catch (error) {
     console.error('Error deleting submenu item:', error);
