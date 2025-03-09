@@ -13,7 +13,6 @@ import { Upload, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import Hero from "../components/layout/Hero";
 
 // Define validation schema
 const enquirySchema = z.object({
@@ -24,13 +23,19 @@ const enquirySchema = z.object({
 
 type EnquiryFormData = z.infer<typeof enquirySchema>;
 
+interface FormPageProps {
+  title: string;
+  description?: string;
+  isModal?: boolean;
+  onClose?: () => void;
+}
+
 export default function FormPage({
   title,
   description = "Please provide your details and query along with any supporting documents.",
-}: {
-  title: string;
-  description: string;
-}) {
+  isModal = false,
+  onClose
+}: FormPageProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -78,15 +83,117 @@ export default function FormPage({
       }
 
       toast.success("Your enquiry has been submitted successfully!");
-
       reset();
       setFiles([]);
+      if (isModal && onClose) {
+        onClose();
+      }
     } catch (error: any) {
       toast.error(error.message);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const formContent = (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+      <div>
+        <Label htmlFor="fullName">Full Name</Label>
+        <Input
+          id="fullName"
+          {...register("fullName")}
+          className={`mt-1 ${errors.fullName ? "border-red-500" : ""}`}
+        />
+        {errors.fullName && (
+          <p className="mt-1 text-sm text-red-500">
+            {errors.fullName?.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          {...register("email")}
+          className={`mt-1 ${errors.email ? "border-red-500" : ""}`}
+        />
+        {errors.email && (
+          <p className="mt-1 text-sm text-red-500">
+            {errors.email?.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor="query">Your Query</Label>
+        <Textarea
+          id="query"
+          {...register("query")}
+          className={`mt-1 ${errors.query ? "border-red-500" : ""}`}
+          rows={5}
+        />
+        {errors.query && (
+          <p className="mt-1 text-sm text-red-500">
+            {errors.query?.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <Label>Supporting Documents</Label>
+        <div
+          {...getRootProps()}
+          className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-gray-400"
+        >
+          <input {...getInputProps()} />
+          <Upload className="mx-auto h-12 w-12 text-gray-400" />
+          <p className="mt-2 text-sm text-gray-600">
+            Drag & drop files here, or click to select files
+          </p>
+          <p className="text-xs text-gray-500">
+            PDF, PNG, JPG up to 10MB each
+          </p>
+        </div>
+
+        {files.length > 0 && (
+          <ul className="mt-4 space-y-2">
+            {files.map((file, index) => (
+              <li
+                key={index}
+                className="flex items-center justify-between p-2 bg-gray-50 rounded"
+              >
+                <span className="text-sm text-gray-600">{file.name}</span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeFile(index)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? "Submitting..." : "Submit Enquiry"}
+      </Button>
+    </form>
+  );
+
+  if (isModal) {
+    return (
+      <div className="p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">{title}</h2>
+        <p className="text-gray-600 mb-6">{description}</p>
+        {formContent}
+      </div>
+    );
+  }
 
   if (!session) {
     return (
@@ -113,103 +220,12 @@ export default function FormPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Hero
-        imageUrl="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40"
-        pageName={title}
-        pageDesc={`Submit your "${title}" related queries and documents using the form below.`}
-      />
-      <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white p-8 rounded-xl shadow-lg">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">{title}</h1>
           <p className="text-gray-600 mb-8">{description}</p>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div>
-              <Label htmlFor="fullName">Full Name</Label>
-              <Input
-                id="fullName"
-                {...register("fullName")}
-                className={`mt-1 ${errors.fullName ? "border-red-500" : ""}`}
-              />
-              {errors.fullName && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.fullName?.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                {...register("email")}
-                className={`mt-1 ${errors.email ? "border-red-500" : ""}`}
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.email?.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="query">Your Query</Label>
-              <Textarea
-                id="query"
-                {...register("query")}
-                className={`mt-1 ${errors.query ? "border-red-500" : ""}`}
-                rows={5}
-              />
-              {errors.query && (
-                <p className="mt-1 text-sm text-red-500">
-                  {errors.query?.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <Label>Supporting Documents</Label>
-              <div
-                {...getRootProps()}
-                className="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gray-400"
-              >
-                <input {...getInputProps()} />
-                <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                <p className="mt-2 text-sm text-gray-600">
-                  Drag & drop files here, or click to select files
-                </p>
-                <p className="text-xs text-gray-500">
-                  PDF, PNG, JPG up to 10MB each
-                </p>
-              </div>
-
-              {files.length > 0 && (
-                <ul className="mt-4 space-y-2">
-                  {files.map((file, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center justify-between p-2 bg-gray-50 rounded"
-                    >
-                      <span className="text-sm text-gray-600">{file.name}</span>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeFile(index)}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit Enquiry"}
-            </Button>
-          </form>
+          {formContent}
         </div>
       </div>
     </div>
