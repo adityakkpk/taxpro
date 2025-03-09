@@ -1,6 +1,7 @@
 import connectDB from "@/src/lib/mongodb";
 import { sendEmail } from "@/src/lib/nodemailer";
 import { NextResponse } from "next/server";
+import ContactUs from "../../models/Contact";
 
 export async function POST(req: Request) {
   try {
@@ -11,6 +12,14 @@ export async function POST(req: Request) {
     const message = formData.get('message') as string;
 
     await connectDB();
+
+    const newContactUsData = new ContactUs({
+      name,
+      email,
+      // subject,
+      message,
+    })
+    await newContactUsData.save();
 
     // Send email using your preferred method (e.g., SendGrid, Mailgun, AWS SES)
     await sendEmail(name, email, subject, message);
